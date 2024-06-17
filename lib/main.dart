@@ -1,3 +1,4 @@
+import 'package:feedback/feedback.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,11 @@ void main() async {
     anonKey: SupabaseCreds.supabaseKey,
   );
 
-  runApp(const MyApp());
+  runApp(
+    const BetterFeedback(
+      child: MyApp(),
+    ),
+  );
 }
 
 final supabase = Supabase.instance.client;
@@ -55,6 +60,9 @@ class _MyAppState extends State<MyApp> {
             if (session != null) {
               return const AlertListPage();
             }
+
+            // if (snapshot.data!.event == AuthChangeEvent.passwordRecovery) {}
+
             return const LoginPage();
           },
         ),

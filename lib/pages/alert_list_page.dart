@@ -1,5 +1,5 @@
+import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:productalert/api/firebase_api.dart';
@@ -54,7 +54,21 @@ class _AlertListPageState extends State<AlertListPage> {
   void _onMenuSelected(int position) {
     if (position == 0) {
       _logout();
+    } else if (position == 1) {
+      _getFeedback();
     }
+  }
+
+  void _getFeedback() {
+    BetterFeedback.of(context).show((UserFeedback feedback) {
+      final userId = supabase.auth.currentSession!.user.id;
+      final feedbackData = {
+        'user_id': userId,
+        'text': feedback.text,
+        'image_url': null,
+      };
+      SupabaseApi.insertDataToDatabase('feedbacks', feedbackData, context);
+    });
   }
 
   void _getUserProfile() async {
@@ -224,6 +238,7 @@ class _AlertListPageState extends State<AlertListPage> {
               ),
             ),
             itemBuilder: (ctx) => [
+              _buildPopupMenuItem('Feedback', Icons.feedback, 1),
               _buildPopupMenuItem('Logout', Icons.exit_to_app, 0),
             ],
           )
@@ -351,6 +366,7 @@ class _AlertListPageState extends State<AlertListPage> {
   PopupMenuItem _buildPopupMenuItem(
       String title, IconData iconData, int position) {
     return PopupMenuItem(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       value: position,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,

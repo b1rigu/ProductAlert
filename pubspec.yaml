@@ -16,6 +16,7 @@ dependencies:
   firebase_core: ^3.1.0
   firebase_messaging: ^15.0.1
   responsive_navigation_bar: ^5.0.2
+  feedback: ^3.1.0
 
 
 dev_dependencies:
