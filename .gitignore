@@ -44,11 +44,11 @@ app.*.map.json
 
 # my added
 /android/app/google-services.json
-.vscode
-supabase
-firebase.json
-package-lock.json
-package.json
 lib/supabase_creds.dart
 lib/firebase_options.dart
+firebase.json
+.vscode
+supabase
+package-lock.json
+package.json
 node_modules
