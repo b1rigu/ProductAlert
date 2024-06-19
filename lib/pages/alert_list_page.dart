@@ -265,14 +265,12 @@ class _AlertListPageState extends State<AlertListPage> {
                 final expiresAt = formatter
                     .format(DateTime.parse(alerts[index]['expires_at']));
 
-                final dateDifference = _showExpiredAlerts
-                    ? DateTime.now()
-                        .difference(DateTime.parse(alerts[index]['expires_at']))
-                        .inDays
-                    : DateTime.parse(alerts[index]['expires_at'])
+                final dateDifference =
+                    DateTime.parse(alerts[index]['expires_at'])
                         .difference(DateTime.now())
                         .inDays;
-                if (dateDifference < 0) {
+                if ((_showExpiredAlerts && dateDifference >= 0) ||
+                    (!_showExpiredAlerts && dateDifference < 0)) {
                   return const SizedBox();
                 }
                 return Card(
